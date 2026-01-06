@@ -1,0 +1,13 @@
+import json
+
+# 1. Open the file you already created
+with open('yc_top_20.json', 'r', encoding='utf-8') as f:
+    # 2. Load the data back into a Python list
+    data = json.load(f)
+
+# 3. Print the length of that list
+print(f"Total companies scraped: {len(data)}")
+
+# 4. Optional: Print the first one to make sure it looks right
+if len(data) > 0:
+    print("First entry sample:", data[0])
