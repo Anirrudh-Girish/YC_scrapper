@@ -26,11 +26,8 @@ This project follows the Medallion Architecture to ensure data reliability and l
 
 🚀 How to Run
 
-    Clone the Repository:
-    Bash
+    Clone the Repository
 
-git clone https://github.com/YourUsername/YC_scrapper.git
-cd YC_scrapper
 
 Setup Environment:
 PowerShell
@@ -44,8 +41,6 @@ PowerShell
         python main.py (Ingestion)
 
         python data_cleaning.py (Transformation)
-
-        python query_startups.py (Analysis)
 
 📊 Key Engineering Features
 
