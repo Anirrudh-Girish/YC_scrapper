@@ -1,6 +1,5 @@
 import time
 import json
-import selenium
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -27,23 +26,23 @@ while True:
         break
     last_height = new_height
 
-all_cards = driver.find_elements(By.CLASS_NAME, "_company_99064_1")
-
-# ... (Infinite Scroll logic runs first) ...
+# Infinite Scroll logic runs first
 
 # 1. Locate all company card elements using the current class
 all_cards = driver.find_elements(By.CLASS_NAME, "_company_i9oky_355")
 
-# 2. Slice the list to target the first 20 companies
+company_links = [card.get_attribute("href") for card in all_cards]
+
+print(f"Collected {len(company_links)} links. Starting deep crawl...")
 
 all_companies = []
 
 for card in all_cards:
     try:
-        # 3. Extract Name using the specific span class
+        #Extract Name using the specific span class
         name = card.find_element(By.CLASS_NAME, "_coName_i9oky_470").text
-        
-        # 4. Extract Categories (Pills)
+
+        # Extract Categories (Pills)
         # We look for all spans with the 'pill' class inside this card
         pill_elements = card.find_elements(By.CLASS_NAME, "_pill_i9oky_33")
         categories = [pill.text for pill in pill_elements if pill.text.strip()]
@@ -60,3 +59,4 @@ for card in all_cards:
 # 5. Save the result as a JSON file
 with open('yc_top_20.json', 'w', encoding='utf-8') as f:
     json.dump(all_companies, f, indent=4)
+

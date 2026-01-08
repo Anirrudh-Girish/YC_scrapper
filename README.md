@@ -1,78 +1,56 @@
+🚀 YC Market Intelligence Lake
+An End-to-End Data Engineering Pipeline for Startup Market Research
 
-# YC Directory Scrapper (v1.0)
+This project is a production-grade data pipeline that automates the collection, transformation, and storage of YC startup data. It transitions a manual market research process into an optimized "Data Lake" architecture using the Modern Data Stack.
+🛠️ The Tech Stack
 
-A Python-based automation tool designed to extract and organize startup data from the Y Combinator (YC) company directory. This project serves as a practical application of web automation, handling dynamic content, and data integrity principles.
+    Ingestion: Selenium & WebDriver Manager (Dynamic Web Scraping).
 
-## 🚀 Project Overview
+    Processing: Python & Pandas (Data Normalization & Vectorized Logic).
 
-This tool automates the process of navigating the YC directory, which utilizes an "Infinite Scroll" mechanism. It effectively loads all 1,000+ companies before extracting structured data into a portable JSON format.
+    Storage: Apache Parquet (High-performance Columnar Storage).
 
-## 📊 Data Points Collected
+    Querying: DuckDB (OLAP Database Engine).
 
-* **Company Name**: Extracted using targeted CSS selectors for accuracy.
-* **Industry Categories**: Captured as a list of tags (pills) for each startup to allow for easy filtering and analysis.
+    Environment: Virtual Environments (.venv) & requirements.txt.
 
-## 🛠️ Technical Features & Skills Applied
+🏗️ Architecture: The Medallion Approach
 
-### 1. Dynamic Content & Infinite Scroll
+This project follows the Medallion Architecture to ensure data reliability and lineage:
 
-Standard scraping tools cannot "see" the full YC list because content only loads as the user scrolls.
+    Bronze (Raw): Unstructured yc_20.json captured directly from the YC Directory.
 
-* **Implementation**: I used Selenium to execute JavaScript commands (`window.scrollTo`).
-* **Logic**: The script compares `scrollHeight` before and after scrolling to detect when the absolute bottom of the page has been reached.
+    Silver (Cleaned): Standardized Parquet files where data is "flattened" and industry tags are normalized to uppercase for consistent analysis.
 
-### 2. Data Integrity & Unicode Safety
+    Gold (Analytical): Query-ready tables in DuckDB for business intelligence.
 
-Scraping international startup names often involves special characters.
+🚀 How to Run
 
-* **The Problem**: Default text writing can corrupt non-standard characters.
-* **The Solution**: Following best practices for web data, I implemented `utf-8` encoding to maintain the **Unicode encoding** of the text, ensuring names are saved exactly as they appear on the server.
+    Clone the Repository:
+    Bash
 
-### 3. Environment & Dependency Management
+git clone https://github.com/YourUsername/YC_scrapper.git
+cd YC_scrapper
 
-* **Virtual Environments**: The project is built within a dedicated `.venv` to prevent library conflicts.
-* **Automation Tools**: Utilized `webdriver-manager` to automatically handle Chrome driver binaries, ensuring the script runs on any machine without manual setup.
+Setup Environment:
+PowerShell
 
-## 📂 Project Structure
+    python -m venv .venv
+    .\.venv\Scripts\Activate.ps1
+    pip install -r requirements.txt
 
-* `main.py`: The core Selenium script for automation and extraction.
-* `counter.py`: A utility script to verify the total count and integrity of the scraped data.
-* `.gitignore`: Configured to exclude local environments (`.venv/`) and raw data caches.
+    Run the Pipeline:
 
-## ⚙️ How to Run
+        python main.py (Ingestion)
 
-1. **Clone the repository** to your local machine.
-2. **Activate the virtual environment**:
-```powershell
-.\.venv\Scripts\activate
+        python data_cleaning.py (Transformation)
 
-```
+        python query_startups.py (Analysis)
 
+📊 Key Engineering Features
 
-3. **Install dependencies**:
-```bash
-pip install selenium webdriver-manager
+    Dynamic Scraping: Handles Single Page Applications (SPAs) using Selenium's Explicit Waits.
 
-```
+    Schema Enforcement: Converts nested JSON lists into searchable, columnar Parquet formats.
 
-
-4. **Execute the scraper**:
-```bash
-python main.py
-
-```
-
-
-
-## 📈 Future Roadmap
-
-* **Phase 2 (Deep Scraping)**: Enhance the script into a "Spider" that clicks into each company card to collect "Team Size," "Founded Year," and "Company Website."
-* **Database Integration**: Migrate storage from JSON files to a structured SQLite database for better scalability.
-
----
-
-### Why this README works:
-
-1. **Cites Technical Principles**: It references the core concepts of infinite scroll and Unicode safety that you learned.
-2. **Professional Tone**: It uses industry terms like "Data Integrity," "Dynamic Content," and "Dependency Management."
-3. **Shows Progress**: It clearly lists this as v1.0 and outlines a plan for future versions.
+    Data Quality Safeguards: Implements validation checks (null-value detection and row-count verification) to prevent "data poisoning".
